@@ -12,6 +12,7 @@ import pyautogui, sys, time, mouse, keyboard, threading
 
 #constants
 wait_time = 95
+three_hours = 60*60*3
 
 help_button_x, help_button_y = pyautogui.position(1335,499)
 claim_clan_gift_x, claim_clan_gift_y = pyautogui.position(1335,463)
@@ -53,6 +54,7 @@ def explore_crypt():
     #pyautogui.click(second_cap_x, second_cap_y, clicks=1, interval=0.30)
     pyautogui.click(bonus_explore_x, bonus_explore_y, clicks=2, interval=0.30)
     time.sleep(wait_time) #time for arrival
+    wait_time+= 30
 
 thread_one = threading.Thread(target=explore_crypt)
 thread_two = threading.Thread(target=claim_gifts_and_help)
