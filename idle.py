@@ -1,15 +1,14 @@
 import pyautogui, sys, time, mouse, keyboard, threading
 
-print('Press Ctrl-C to quit.')
-try:
-    while True:
-        x, y = pyautogui.position()
-        positionStr = 'X: ' + str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
-        print(positionStr, end='')
-        print('\b' * len(positionStr), end='', flush=True)
-except KeyboardInterrupt:
-    print('\n')
-
+# print('Press Ctrl-C to quit.')
+# try:
+#     while True:
+#         x, y = pyautogui.position()
+#         positionStr = 'X: ' + str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
+#         print(positionStr, end='')
+#         print('\b' * len(positionStr), end='', flush=True)
+# except KeyboardInterrupt:
+#     print('\n')
 #constants
 wait_time = 95
 help_time= False
@@ -42,7 +41,6 @@ resourde_scroll_x, resource_scroll_y = pyautogui.position(1302, 179)
 
 def claim_gifts_and_help():
     while help_time:
-        while helper_time <= 10:
             pyautogui.click(clan_button_x, clan_button_y)
             pyautogui.click(gift_tab_x, gift_tab_y)
             pyautogui.click(claim_clan_gift_x, claim_clan_gift_y, clicks=4, interval=0.30)
@@ -52,34 +50,40 @@ def claim_gifts_and_help():
             time.sleep(30)
 
 def explore_crypt():
-    help_time = False
-    pyautogui.click(watch_tower_x, watch_tower_y, clicks=1)
-    time.sleep(1)
-    pyautogui.click(crypt_and_arena_x, crypt_and_arena_y, clicks=1)
-    time.sleep(1)
-    pyautogui.click(crypt_go_btn_x, crypt_go_btn_y, clicks=2)
-    time.sleep(1)
-    pyautogui.moveTo(select_crypt_x, select_crypt_y)
-    time.sleep(3)
-    pyautogui.click(select_crypt_x, select_crypt_y, clicks=1)
-    time.sleep(1)
-    #pyautogui.click(first_cap_x, first_cap_y, clicks=1, interval=0.30)
-    pyautogui.click(bonus_explore_x, bonus_explore_y, clicks=2, interval=0.30)
-    time.sleep(1)
-    pyautogui.moveTo(select_crypt_x, select_crypt_y)
-    time.sleep(3)
-    pyautogui.click(select_crypt_x, select_crypt_y, clicks=1)
-    time.sleep(1)
-    #pyautogui.click(second_cap_x, second_cap_y, clicks=1, interval=0.30)
-    pyautogui.click(bonus_explore_x, bonus_explore_y, clicks=2, interval=0.30)
-    help_time = True
-    time.sleep(wait_time) #time for arrival
-    wait_time += 30
+    # help_time = False
+    # wait_time = 95
+    while wait_time <= 3000:
+        help_time = False
+        pyautogui.moveTo(watch_tower_x, watch_tower_y, 0.5)
+        pyautogui.click()
+        time.sleep(0.5)
+        pyautogui.moveTo(crypt_and_arena_x, crypt_and_arena_y, 0.5)
+        pyautogui.click()
+        time.sleep(0.5)
+        pyautogui.moveTo(crypt_go_btn_x, crypt_go_btn_y, 0.5)
+        pyautogui.click()
+        time.sleep(0.5)
+        pyautogui.moveTo(select_crypt_x, select_crypt_y, 0.5)
+        time.sleep(2)
+        pyautogui.click()
+        time.sleep(0.)
+        #pyautogui.click(first_cap_x, first_cap_y, clicks=1, interval=0.30)
+        pyautogui.moveTo(bonus_explore_x, bonus_explore_y, 0.5)
+        time.sleep(0.5)
+        pyautogui.click()
+        time.sleep(0.5)
+        pyautogui.moveTo(select_crypt_x, select_crypt_y, 0.5)
+        time.sleep(2)
+        pyautogui.click()
+        time.sleep(0.5)
+        #pyautogui.click(second_cap_x, second_cap_y, clicks=1, interval=0.30)
+        pyautogui.moveTo(bonus_explore_x, bonus_explore_y, 0.5)
+        time.sleep(0.5)
+        pyautogui.click()
+        help_time = True
+        time.sleep(wait_time) #time for arrival
+        wait_time += 30
 
-#thread_one = threading.Thread(target=explore_crypt)
-#thread_two = threading.Thread(target=claim_gifts_and_help)
-
-# time.sleep(5)
-
-# explore_crypt()
+thread_one = threading.Thread(target=explore_crypt)
+thread_two = threading.Thread(target=claim_gifts_and_help)
 
