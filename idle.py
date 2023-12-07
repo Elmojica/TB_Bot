@@ -103,8 +103,8 @@ def explore_crypt():
         pyautogui.click()
         help_time = True
 
-        #ISSUE. this sleep function makes the ENTIRE program sleep. Not just this function. it needs to be function specific
-        time.sleep(wait_time) #time for arrival 
+        #ISSUE. time.sleep() makes the entire bot go to sleep
+        time.sleep(60) #waits a minute before trying again. no harm 
         wait_time += 30
 
 #buffer to allow time to switch to game
