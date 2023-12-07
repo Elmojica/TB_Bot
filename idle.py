@@ -110,15 +110,18 @@ def explore_crypt():
 #buffer to allow time to switch to game
 time.sleep(3)
 
+#WIP threads
 # creates threads
-thread_one = threading.Thread(target=explore_crypt)
-thread_two = threading.Thread(target=claim_gifts_and_help)
+# thread_one = threading.Thread(target=explore_crypt)
+# thread_two = threading.Thread(target=claim_gifts_and_help)
 
-# starts the threads
-thread_one.start()
-thread_two.start()
-
+# meant to start the threads
+print('Press Ctrl-C to quit.')
+try:
+    explore_crypt()
+except KeyboardInterrupt:
+    print('\n')
 
 # joins the threads back to the parent process to wrap up
-thread_one.join()
-thread_two.join() 
+# thread_one.join()
+# thread_two.join() 
