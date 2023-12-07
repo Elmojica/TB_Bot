@@ -6,7 +6,8 @@ For starters, you will need to have the following installed into your system in 
 2. Pip   @   https://pip.pypa.io/en/stable/installation/
 
 After this, the getting the modules to run the program should be easy, simply run the following command to install the modules used on this project. 
-    pip install pyautogui time mouse keyboard threading
+
+`pip install pyautogui time mouse keyboard threading`
 
 If this one does not work, try to insall them individually.  (WIP)-- > making an easier way to install all modules
 
