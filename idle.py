@@ -69,7 +69,7 @@ def explore_crypt():
     global help_time
     # help_time = False
     # wait_time = 95
-    while wait_time <= 3000:
+    while wait_time <= 3000: #stops after an hour and thirty ish mins
         help_time = False
         pyautogui.moveTo(watch_tower_x, watch_tower_y, 0.5)
         pyautogui.click()
@@ -125,3 +125,5 @@ except KeyboardInterrupt:
 # joins the threads back to the parent process to wrap up
 # thread_one.join()
 # thread_two.join() 
+
+
