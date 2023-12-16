@@ -15,7 +15,7 @@ import pyautogui, sys, time, mouse, keyboard, threading
 #     print('\n')
 
 #constants
-wait_time = 95
+wait_time = 60
 help_time= False
 
 #desktop positions
@@ -26,6 +26,7 @@ crypt_and_arena_x, crypt_and_arena_y = pyautogui.position(682, 524)
 crypt_go_btn_x, crypt_go_btn_y = pyautogui.position(1221, 536)
 select_crypt_x, select_crypt_y = pyautogui.position(954, 560)
 bonus_explore_x, bonus_explore_y = pyautogui.position(1130, 831)
+regular_explore_x,regular_explore_y = pyautogui.position(775, 828)
 clan_button_x, clan_button_y = pyautogui.position(1015, 953)
 gift_tab_x, gift_tab_y = pyautogui.position(570, 456)
 help_tab_x, help_tab_y = pyautogui.position(570, 566)
@@ -64,13 +65,23 @@ def claim_gifts_and_help():
             pyautogui.click( clicks=4, interval=0.30)
             time.sleep(30)
 
+def send_cap():
+    pyautogui.moveTo(select_crypt_x, select_crypt_y, 0.5)
+    time.sleep(2)
+    pyautogui.click()
+    time.sleep(0.5)
+
+    pyautogui.moveTo(bonus_explore_x, bonus_explore_y, 0.5)
+    time.sleep(0.5)
+    pyautogui.click()
+
 def explore_crypt():
     global wait_time 
     global help_time
     # help_time = False
-    # wait_time = 95
     while wait_time <= 3000: #stops after an hour and thirty ish mins
         help_time = False
+        print("Crypting Start!")
         pyautogui.moveTo(watch_tower_x, watch_tower_y, 0.5)
         pyautogui.click()
         time.sleep(0.5)
@@ -88,24 +99,15 @@ def explore_crypt():
         pyautogui.click()
         time.sleep(0.5)
 
-        pyautogui.moveTo(bonus_explore_x, bonus_explore_y, 0.5)
-        pyautogui.click()
-        time.sleep(0.5)
+        send_cap()
+        send_cap()
 
-        pyautogui.moveTo(select_crypt_x, select_crypt_y, 0.5)
-        time.sleep(2)
-        pyautogui.click()
-        time.sleep(0.5)
-
-        pyautogui.moveTo(bonus_explore_x, bonus_explore_y, 0.5)
-        time.sleep(0.5)
-
-        pyautogui.click()
         help_time = True
 
         #ISSUE. time.sleep() makes the entire bot go to sleep
-        time.sleep(60) #waits a minute before trying again. no harm 
-        wait_time += 30
+        print("Crypting Wait!")
+        time.sleep(wait_time) #waits a minute before trying again. no harm 
+        # wait_time += 10
 
 #buffer to allow time to switch to game
 time.sleep(3)
