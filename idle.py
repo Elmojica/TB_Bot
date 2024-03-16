@@ -1,10 +1,9 @@
-import pyautogui, sys, time, mouse, keyboard, threading
+import pyautogui, sys, time, threading 
 
 #script below shows the position of the mouse in real time
-#I used it to find the positions of the buttons on the screen
+#Uncomment the below to find speicific coords 
 
-
-# print('Press Ctrl-C to quit.')
+print('Press Ctrl-C to quit.')
 # try:
 #     while True:
 #         x, y = pyautogui.position()
@@ -15,7 +14,7 @@ import pyautogui, sys, time, mouse, keyboard, threading
 #     print('\n')
 
 #constants
-wait_time = 60
+wait_time = 10
 help_time= False
 
 #desktop positions
@@ -30,6 +29,9 @@ regular_explore_x,regular_explore_y = pyautogui.position(775, 828)
 clan_button_x, clan_button_y = pyautogui.position(1015, 953)
 gift_tab_x, gift_tab_y = pyautogui.position(570, 456)
 help_tab_x, help_tab_y = pyautogui.position(570, 566)
+speed_up_x, speed_up_y = pyautogui.position(1241, 176)
+use_x, use_y = pyautogui.position(1129, 518) # to be clicked exactly 5 times
+click_out_x, click_out_y = pyautogui.position(1321, 357)
 
 #laptop positions
 # help_button_x, help_button_y = pyautogui.position(582,587)
@@ -75,6 +77,18 @@ def send_cap():
     time.sleep(0.5)
     pyautogui.click()
 
+def speed_up():
+     time.sleep(1)
+     pyautogui.moveTo(speed_up_x,speed_up_y)
+     time.sleep(0.5)
+     pyautogui.click()
+     pyautogui.moveTo(use_x,use_y)
+     time.sleep(0.5)
+     pyautogui.click(clicks=5, interval=1)
+     pyautogui.moveTo(click_out_x,click_out_y)
+     time.sleep(0.5)
+     pyautogui.click()
+
 def explore_crypt():
     global wait_time 
     global help_time
@@ -100,7 +114,9 @@ def explore_crypt():
         time.sleep(0.5)
 
         send_cap()
-        send_cap()
+        speed_up()
+        # send_cap()
+        # speed_up()
 
         help_time = True
 
@@ -110,22 +126,19 @@ def explore_crypt():
         # wait_time += 10
 
 #buffer to allow time to switch to game
-time.sleep(3)
+time.sleep(5)
 
-#WIP threads
-# creates threads
-# thread_one = threading.Thread(target=explore_crypt)
-# thread_two = threading.Thread(target=claim_gifts_and_help)
-
-# meant to start the threads
-print('Press Ctrl-C to quit.')
+# # meant to start the threads
+# print('Press Ctrl-C to quit.')
 try:
-    explore_crypt()
+    # explore_crypt()
+
+    #speed clicker script - be careful it literally doesnt stop clicking
+    for i in range(76):
+        pyautogui.click(clicks = 1, interval= 0.01)
 except KeyboardInterrupt:
     print('\n')
 
-# joins the threads back to the parent process to wrap up
-# thread_one.join()
-# thread_two.join() 
+
 
 
