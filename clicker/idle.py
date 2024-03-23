@@ -3,7 +3,7 @@ import pyautogui, sys, time, threading
 #script below shows the position of the mouse in real time
 #Uncomment the below to find speicific coords 
 
-print('Press Ctrl-C to quit.')
+# print('Press Ctrl-C to quit.')
 # try:
 #     while True:
 #         x, y = pyautogui.position()
@@ -134,7 +134,7 @@ try:
     # explore_crypt()
 
     #speed clicker script - be careful it literally doesnt stop clicking
-    for i in range(76):
+    for i in range(20*8):
         pyautogui.click(clicks = 1, interval= 0.01)
 except KeyboardInterrupt:
     print('\n')
