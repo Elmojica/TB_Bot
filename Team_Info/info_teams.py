@@ -4,12 +4,14 @@ import pandas as pd
 import coodinates as cd
 import time
 from PIL import Image
+from dotenv import load_dotenv
+import os 
 
 bff = 0
 player_count= {}
-
+load_dotenv()
 #function to transcribe text from local image
-def ocr_space_file(filename, overlay=False, api_key='GPR822SZ2HYAX', language='eng'):
+def ocr_space_file(filename, overlay=False, api_key=os.getenv('OCR_API_KEY'), language='eng'):
     """ OCR.space API request with local file.
         Python3.5 - not tested on 2.7
     :param filename: Your file path & name.
@@ -143,7 +145,6 @@ def find_gift_claim():
         print("Timeout: Image search took more than 5 seconds.")
 
 
-
 while(find_gift_claim()):
     data = clan_gift_counter()
 
@@ -155,8 +156,6 @@ df = pd.DataFrame(player_count).T.rename_axis('test_player').reset_index()
 
 df.to_excel(writer, index=False)
 wb.save('test.xlsx')
-
-
 
 
 #examples below  
