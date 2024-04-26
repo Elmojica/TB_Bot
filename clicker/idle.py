@@ -92,8 +92,10 @@ def speed_up():
 def explore_crypt():
     global wait_time 
     global help_time
+    control = 0
     # help_time = False
-    while wait_time <= 3000: #stops after an hour and thirty ish mins
+    while control <= 20: #stops after an hour and thirty ish mins
+
         help_time = False
         print("Crypting Start!")
         pyautogui.moveTo(watch_tower_x, watch_tower_y, 0.5)
@@ -103,7 +105,7 @@ def explore_crypt():
         pyautogui.moveTo(crypt_and_arena_x, crypt_and_arena_y, 0.5)
         pyautogui.click()
         time.sleep(0.5)
-
+ 
         pyautogui.moveTo(crypt_go_btn_x, crypt_go_btn_y, 0.5)
         pyautogui.click()
         time.sleep(0.5)
@@ -124,18 +126,21 @@ def explore_crypt():
         print("Crypting Wait!")
         time.sleep(wait_time) #waits a minute before trying again. no harm 
         # wait_time += 10
+        control += 1
 
 #buffer to allow time to switch to game
 time.sleep(5)
 
-# # meant to start the threads
-# print('Press Ctrl-C to quit.')
+# meant to start the threads
+print('Press Ctrl-C to quit.')
 try:
     # explore_crypt()
 
-    #speed clicker script - be careful it literally doesnt stop clicking
-    for i in range(20*8):
+    # speed clicker script - be careful it literally doesnt stop clicking
+    num = 58*9
+    for i in range(num):
         pyautogui.click(clicks = 1, interval= 0.01)
+        print(num-i)
 except KeyboardInterrupt:
     print('\n')
 

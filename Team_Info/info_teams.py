@@ -3,10 +3,13 @@ from openpyxl import load_workbook
 import pandas as pd
 import coodinates as cd
 import time
+from PIL import Image
 
 bff = 0
+player_count= {}
 
-def ocr_space_file(filename, overlay=False, api_key='K86815275188957', language='eng'):
+#function to transcribe text from local image
+def ocr_space_file(filename, overlay=False, api_key='GPR822SZ2HYAX', language='eng'):
     """ OCR.space API request with local file.
         Python3.5 - not tested on 2.7
     :param filename: Your file path & name.
@@ -25,12 +28,13 @@ def ocr_space_file(filename, overlay=False, api_key='K86815275188957', language=
                'language': language,
                }
     with open(filename, 'rb') as f:
-        r = requests.post('https://api.ocr.space/parse/image',
+        r = requests.post('https://apipro1.ocr.space/parse/image',
                           files={filename: f},
                           data=payload,
                           )
     return r.content.decode()
 
+#function to transcribe text from online image
 def ocr_space_url(url, overlay=False, api_key='helloworld', language='eng'):
     """ OCR.space API request with remote file.
         Python3.5 - not tested on 2.7
@@ -55,6 +59,7 @@ def ocr_space_url(url, overlay=False, api_key='helloworld', language='eng'):
                       )
     return r
 
+#function to find image on screen
 def find_image(image_name):
     try:
         button_location = pyautogui.locateAllOnScreen(image_name)
@@ -63,7 +68,7 @@ def find_image(image_name):
         # print(pos)
     except pyautogui.ImageNotFoundException:
         print('Image not found')
-        return None
+        return False
     
     return button_location
     
@@ -79,10 +84,75 @@ def get_mights_clan():
         pyautogui.mouseUp()
         # time.sleep(0.5)
            
-print(bff)
-locations = find_image('./Total Battle/buttons/Clan_member_name_diff.png')
-for pos in locations:
-    print(pos)
+def clan_gift_counter():
+    global player_count
+    
+    #take screenshot of the player name
+    im = pyautogui.screenshot(region=(833,420, 200, 19))
+    im.save('player_name.png')
+    json_response = ocr_space_file('player_name.png')
+    resp = json.loads(json_response)
+    print(resp)
+    print("Player Name:")
+    player_name = resp['ParsedResults'][0]['ParsedText'].strip()
+    print(player_name)
+
+    #take screenshot of the chest level
+    im = pyautogui.screenshot(region=(843, 440, 150, 20))
+    im.save('chest_level.png')
+    json_response = ocr_space_file('chest_level.png')
+    resp = json.loads(json_response)
+    chest_level = resp['ParsedResults'][0]['ParsedText'].strip()
+    print(chest_level)
+    #add chest level to chest_count and increase their counter by 1
+
+    if player_name == "":
+        return False
+    else:
+        if player_name in player_count:
+            if chest_level in player_count[player_name]:
+                player_count[player_name][chest_level] += 1
+            else:
+                player_count[player_name][chest_level] = 1
+        else:
+            player_count[player_name] = {chest_level: 1}
+
+    #claim the gift
+    pyautogui.click(1339,463)
+    print(player_count)
+    #rinse and repeat... for now
+    return True
+
+def find_gift_claim():
+    r = None
+    start_time = time.time()
+    while r is None and time.time() - start_time < 5:
+        try:
+            location = pyautogui.locateOnScreen('./Total Battle/buttons/gift_claim.png', region=(0, 0, 1916, 1036))
+            print("Image found!")
+            return True
+            
+        except Exception as e:
+            print("Image not found!")
+            return False
+
+    if time.time() - start_time >= 5:
+        print("Timeout: Image search took more than 5 seconds.")
+
+
+
+while(find_gift_claim()):
+    data = clan_gift_counter()
+
+
+writer = pd.ExcelWriter('test.xlsx', engine='openpyxl') 
+wb = writer.book
+# Convert the dictionary to a DataFrame
+df = pd.DataFrame(player_count).T.rename_axis('test_player').reset_index()
+
+df.to_excel(writer, index=False)
+wb.save('test.xlsx')
+
 
 #examples below  
 {
