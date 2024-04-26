@@ -13,8 +13,10 @@ If this one does not work, try to insall them individually.  (WIP)-- > making an
 
 # Bot Functions
 
-1. Uses the watch tower to find crypts and uses only your first two captains (ideal to have carter in the first two slots) to explore crypts using the "bonus explore" button.
+1. Uses the watch tower to find crypts and uses only your first two captains (ideal to have carter in the first two slots) to explore crypts using the "bonus explore" button using speedups.
 2. (WIP) After finishing the first crypt selection, the bot waits and begins to provide 5 help clicks and collects 5 clan gifts every 10 seconds. This is to ensure the game wont go to sleep and send you to the puchase pack screen.
+3. (WIP) Clan gift counter and tracker
+4. Takes COT targets from an excel sheet (formatted in a specific way) to deliver targets to players via msg 
 
 Potential future features: 
 Mining with the third captain.. waiting 4 hours at a time to collect all rss. 
