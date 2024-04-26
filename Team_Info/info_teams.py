@@ -71,7 +71,8 @@ def find_image(image_name):
         return False
     
     return button_location
-    
+
+#WIP function to scroll through clan members and collect their mights
 def get_mights_clan():
     start_x = cd.top_scollbar_clan.x
     start_y = cd.top_scollbar_clan.y
@@ -83,7 +84,8 @@ def get_mights_clan():
         pyautogui.moveTo(start_x,start_y + bff, 1)
         pyautogui.mouseUp()
         # time.sleep(0.5)
-           
+
+#WIP function to collect gifts from clan members, track who gave what, and claim the gifts
 def clan_gift_counter():
     global player_count
     
@@ -123,6 +125,7 @@ def clan_gift_counter():
     #rinse and repeat... for now
     return True
 
+#Function to identify if there is a gift to claim
 def find_gift_claim():
     r = None
     start_time = time.time()
@@ -154,6 +157,8 @@ df.to_excel(writer, index=False)
 wb.save('test.xlsx')
 
 
+
+
 #examples below  
 {
 #finding image example
@@ -178,12 +183,15 @@ wb.save('test.xlsx')
 
 # df.to_excel(writer, index=False)
 # wb.save('test.xlsx')
-    
+
+
+#Ditionary Formatting
 # thisdict =	{
-#   "Dmino21": [123123123, 23, 12323, 12334, "yes"],
-#   "model": "Mustang",
-#   "year": 1964
+#   "Dmino21": {
+#     "Level 5 Crypt": 1,
+#     "Level 10 Crypt": 2},
+#   "Nezir": {
+#     "Level 5 Crypt": 1,
+#     "Level 10 Crypt": 2}
 # }
-# print(thisdict)
-# print(thisdict["Dmino21"][0])
 }
