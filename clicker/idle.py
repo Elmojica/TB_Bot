@@ -137,7 +137,7 @@ try:
     # explore_crypt()
 
     # speed clicker script - be careful it literally doesnt stop clicking
-    num = 58*9
+    num = 447
     for i in range(num):
         pyautogui.click(clicks = 1, interval= 0.01)
         print(num-i)

@@ -1,5 +1,5 @@
 import pyautogui, requests, json
-from openpyxl import load_workbook
+import openpyxl
 import pandas as pd
 import coodinates as cd
 import time
@@ -92,21 +92,18 @@ def clan_gift_counter():
     global player_count
     
     #take screenshot of the player name
-    im = pyautogui.screenshot(region=(833,420, 200, 19))
+    im = pyautogui.screenshot(region=(833,420, 200, 20))
     im.save('player_name.png')
-    json_response = ocr_space_file('player_name.png')
-    resp = json.loads(json_response)
-    print(resp)
+    image_filtering('player_name.png')
     print("Player Name:")
-    player_name = resp['ParsedResults'][0]['ParsedText'].strip()
+    player_name = image_to_text('player_name.png')
     print(player_name)
 
     #take screenshot of the chest level
-    im = pyautogui.screenshot(region=(843, 440, 150, 20))
+    im = pyautogui.screenshot(region=(839, 440, 250, 20))
     im.save('chest_level.png')
-    json_response = ocr_space_file('chest_level.png')
-    resp = json.loads(json_response)
-    chest_level = resp['ParsedResults'][0]['ParsedText'].strip()
+    image_filtering('chest_level.png')
+    chest_level = image_to_text('chest_level.png')
     print(chest_level)
     #add chest level to chest_count and increase their counter by 1
 
@@ -122,15 +119,32 @@ def clan_gift_counter():
             player_count[player_name] = {chest_level: 1}
 
     #claim the gift
-    pyautogui.click(1339,463)
+    time.sleep(0.1)
+    pyautogui.moveTo(1339,463)
+    pyautogui.mouseDown()
+    pyautogui.mouseUp()
     print(player_count)
     #rinse and repeat... for now
     return True
+
+#function to convert image to text
+def image_to_text(image):
+    json_response = ocr_space_file(image)
+    resp = json.loads(json_response)
+    return resp['ParsedResults'][0]['ParsedText'].strip()
+
+#makes image black and white for better text recognition
+def image_filtering(image):
+    im = Image.open(image)
+    im = im.convert('L')
+    im.save(image)
 
 #Function to identify if there is a gift to claim
 def find_gift_claim():
     r = None
     start_time = time.time()
+    pyautogui.moveTo(1218,452)
+
     while r is None and time.time() - start_time < 5:
         try:
             location = pyautogui.locateOnScreen('./Total Battle/buttons/gift_claim.png', region=(0, 0, 1916, 1036))
@@ -144,53 +158,42 @@ def find_gift_claim():
     if time.time() - start_time >= 5:
         print("Timeout: Image search took more than 5 seconds.")
 
+def to_sheet(players):
+
+    workbook = openpyxl.Workbook()
+
+    # Select the active sheet
+    sheet = workbook.active
+
+    headers = []
+
+    for player in players:
+        for key in players[player]:
+            # print("key: " + key)
+            # print(players[player][key])
+            if players[player] not in headers:
+                headers.append(key)
+
+    headers = list(set(headers))
+    sheet.append(["Player"] + headers)
+
+    # for header in headers:
+    #     sheet.append([header] + [data.get(header, 0) for data in players.values()])
+    # workbook.save("test.xlsx")
+
+    # Write the data
+    for player, data in players.items():
+        print(player)
+        row = [player] + [data.get(header, 0) for header in headers]
+        sheet.append(row)
+
+    # Save the workbook
+    workbook.save("test.xlsx")
+
+time.sleep(5)
 
 while(find_gift_claim()):
     data = clan_gift_counter()
 
+to_sheet(player_count)
 
-writer = pd.ExcelWriter('test.xlsx', engine='openpyxl') 
-wb = writer.book
-# Convert the dictionary to a DataFrame
-df = pd.DataFrame(player_count).T.rename_axis('test_player').reset_index()
-
-df.to_excel(writer, index=False)
-wb.save('test.xlsx')
-
-
-#examples below  
-{
-#finding image example
-# print(find_image('./Total Battle/buttons/Clan_member_diff.png'))
-
-##########################################################################
-# Use examples for extracting text from images:
-# json_response = ocr_space_file(filename='./Total Battle/buttons/clan_members_button.png', language='eng')
-# resp = json.loads(json_response)
-# print(resp['ParsedResults'][0]['ParsedText'])
-# test_url = ocr_space_url(url='http://i.imgur.com/31d5L5y.jpg')
-##########################################################################
-
-#example writing to excel file 
-
-# writer = pd.ExcelWriter('test.xlsx', engine='openpyxl') 
-# wb  = writer.book
-# df = pd.DataFrame({'Col_A': [1,2,3,4],
-#                   'Col_B': [5,6,7,8],
-#                   'Col_C': [0,0,0,0],
-#                   'Col_D': [13,14,15,16]})
-
-# df.to_excel(writer, index=False)
-# wb.save('test.xlsx')
-
-
-#Ditionary Formatting
-# thisdict =	{
-#   "Dmino21": {
-#     "Level 5 Crypt": 1,
-#     "Level 10 Crypt": 2},
-#   "Nezir": {
-#     "Level 5 Crypt": 1,
-#     "Level 10 Crypt": 2}
-# }
-}
